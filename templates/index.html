@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        html, body {
+            color: #fddaec;
+            font-family: "Josefin Sans", sans-serif;
+            font-size: 100%;
+            height: 100%;
+            line-height: 1.45;
+            margin: 0;
+            padding: 0;
+
+            
+        }
+
+        /* Video Overlay */
+        #overlay {
+            background-color: rgba(0, 0, 0, .65);
+            height: 100%;
+            left: 0;
+            position: relative;
+            top: 0;
+            transition: background-color 300ms ease;
+            width: 100%;
+        }
+
+        .fade { background-color: rgba(0, 0, 0, .85) !important; }
+
+        /* Hero Video + Fallback */
+        #hero-vid {
+            backface-visibility: hidden;
+            background: url("TMKOC.jpg") no-repeat scroll 0 0 #000;
+            background-size: cover;
+            bottom: 0;
+            height: auto;
+            min-height: 100%;
+            min-width: 100%;
+            perspective: 1000;
+            position: fixed;
+            right: 0;
+            width: auto;
+            z-index: -1;
+        }
+
+        #hero-pic {
+            display: block;
+            height: auto;
+            width: 100%;
+        }
+
+        #state {
+            bottom: 0;
+            cursor: pointer;
+            font-size: 2.25rem;
+            left: 0;
+            line-height: 1;
+            padding: 2rem 2.5rem 1.65rem;
+            position: absolute;
+        }
+
+        /* Title */
+        #title {
+            backface-visibility: hidden;
+            left: 0;
+            perspective: 1000;
+            position: fixed;
+            width: 100%;
+        }
+
+        #title h1 {
+            background-color: rgba(0, 0, 0, .5);
+            font-family: "Poiret One", sans-serif;
+            font-size: 2rem;
+            padding: 1rem 1rem;
+        }
+
+        /* Content Styles */
+        #content {
+            background-color: #151515;
+            padding: 2.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        #content p {
+            font-size: 1.25rem;
+            letter-spacing: .02rem;
+            margin-bottom: 1.3rem;
+        }
+
+        /* Media Queries */
+        @media only screen and (max-width: 768px) {
+            #overlay { height: auto; }
+        }
+
+        @media only screen and (min-width: 769px) {
+            .visible-mobile, .visible-tablet, .hidden-desktop { display: none !important; }
+        }
+
+        @media only screen and (min-width: 480px) and (max-width: 768px) {
+            .visible-mobile, .hidden-tablet, .visible-desktop { display: none !important; }
+        }
+
+        @media only screen and (max-width: 479px) {
+            .hidden-mobile, .visible-tablet, .visible-desktop { display: none !important; }
+        }
+
+        /* Search Input */
+        .input[type="text"] {
+            display: block;
+            color: rgb(34, 34, 34);
+            background: linear-gradient(142.99deg, rgba(217, 217, 217, 0.63) 15.53%, rgba(243, 243, 243, 0.63) 88.19%);
+            box-shadow: 0px 12px 24px -1px rgba(0, 0, 0,0.18);
+            border-color: rgba(7, 4, 14, 0);
+            font-size: 2.25rem;
+            border-radius: 50px;
+            block-size: 20px;
+            margin: 7px auto;
+            padding: 18px 15px;
+            outline: none;
+            text-align: center;
+            width: 400px;
+            transition: 0.5s;
+        }
+
+        .input[type="text"]:hover,
+        .input[type="text"]:focus {
+            width: 800px;
+        }
+
+        .button-container {
+            display: flex; /* Use flexbox for centering */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            height: 10vh; /* Full viewport height */
+        }
+
+        button {
+        font-size: 1.5rem;
+        color: #fafafa;
+        text-transform: uppercase;
+        padding: 10px 20px;
+        border-radius: 10px;
+        border: 2px solid #fafafa;
+        background: #252525;
+        box-shadow: 3px 3px #fafafa;
+        cursor: pointer;
+        margin: 35px 0;
+        }
+
+        button:active {
+        box-shadow: none;
+        transform: translate(3px, 3px);
+        }
+
+        h5 {
+            position: fixed; /* Sticks it to a fixed position on the screen */
+            bottom: 20px; /* Distance from the bottom of the page */
+            right: 20px; /* Distance from the right side of the page */
+            margin: 0;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            color: white; /* Text color */
+            font-size: 1em;
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        #popupBox {
+            text-align: justify;
+            position: fixed; /* Fix it to a specific spot on the screen */
+            bottom: 80px; /* Position it 20px from the bottom */
+            right: 20px; /* Position it 20px from the right */
+            width: 250px; /* Set a fixed width */
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent dark background */
+            color: white; /* Text color */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Add a shadow */
+            font-size: 1em;
+            display: block; /* Show by default */
+            z-index: 1000; /* Ensure it’s on top */
+        }
+        .fade-text {
+            font-size: 24px;
+            color: #ffffff;
+            font-weight: 600;
+            opacity: 1;
+            animation: fadeOut 15s ease-in-out forwards;
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="overlay">
+        <div id="title">
+            <h1>TAARAK MEHTA KA OOLTAH CHASHMAH</h1>
+        </div>
+        <video class="visible-desktop" id="hero-vid" autoplay loop muted>
+            <source src="{{ url_for('static', filename='videos/tmkoc.webm') }}" type="video/webm">
+            <source src="{{ url_for('static', filename='videos/tmkoc.mp4') }}" type="video/mp4">
+        </video>
+        <img id="hero-pic" class="hidden-desktop" src="{{ url_for('static', filename='images/TMKOC.jpg') }}" alt="Taarak Mehta Ka Ooltah Chashmah">
+        
+    </div>
+
+    <div id="content">
+        <div class="fade-text">
+            Dive into any keyword of your choice—think Lead Ensemble, Supporting Stars, Episode Saga (like Bhootni).
+        </div>
+        <input type="text" id="search-input" placeholder="Enter a keyword to get episode no." class="input">
+        <div class="button-container">  
+            <button onclick="searchEpisodes()">Search</button>
+        </div>
+
+        
+        <div id="results">
+            <!-- Episode results will display here -->
+        </div>
+
+        <div id="popupBox">
+            <h3>Usage Notice</h3>
+            <p>This application was developed purely for entertainment and non-commercial purposes, utilizing data I created about a popular daily soap. I kindly request that any use of this application concept be made with my prior consent.</p>
+        </div>
+
+
+        <h5>Concept to Code: Creation by Rishabh Bhartiya</h5>
+    </div>
+
+    
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function searchEpisodes() {
+            const keywords = document.getElementById('search-input').value;
+            $.ajax({
+                url: '/search',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({keywords}),
+                success: function(response) {
+                    const resultsDiv = document.getElementById('results');
+                    resultsDiv.innerHTML = '';  // Clear previous results
+                    if (response.episodes && response.episodes.length > 0) {
+                        response.episodes.forEach(episode => {
+                            const episodeDiv = document.createElement('div');
+                            episodeDiv.innerHTML = `<p>Episode ${episode.episode_number}: ${episode.Episode_title}</p>`;
+                            resultsDiv.appendChild(episodeDiv);
+                        });
+                    } else {
+                        resultsDiv.innerHTML = '<p>No episodes found.</p>';
+                    }
+                },
+                error: function() {
+                    alert('An error occurred while searching for episodes.');
+                }
+            });
+        }
+         // JavaScript to hide the div after 10 seconds
+         window.onload = function() {
+            setTimeout(function() {
+                document.getElementById('popupBox').style.display = 'none';
+            }, 10000); // 10000 milliseconds = 10 seconds
+        };
+    </script>
+
+</body>
+</html>
